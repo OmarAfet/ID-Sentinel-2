@@ -30,8 +30,8 @@ interface LogTableProps {
 
 export function LogTable({ logs }: LogTableProps) {
   return (
-    <div className="rounded-md border bg-card text-right" dir="rtl">
-      <Table>
+    <div className="rounded-md border bg-card text-right overflow-x-auto" dir="rtl">
+      <Table className="min-w-[800px]">
         <TableHeader>
           <TableRow>
             <TableHead className="w-[180px] text-right">وقت العملية</TableHead>
