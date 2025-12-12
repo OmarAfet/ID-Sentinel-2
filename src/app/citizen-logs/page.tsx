@@ -37,7 +37,7 @@ export default function CitizenLogsPage() {
             <div className="text-center md:text-right w-full md:w-auto">
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight">إدارة الهوية</h1>
               <p className="text-muted-foreground mt-1 text-sm md:text-base">
-                سجل شامل لعمليات الدخول والتحقق من الهوية عبر مختلف الخدمات الحكومية.
+                سجل شامل لعمليات تسجيل الدخول والتحقق من الهوية عبر مختلف الخدمات الحكومية.
               </p>
             </div>
           </div>
