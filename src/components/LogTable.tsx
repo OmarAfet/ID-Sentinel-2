@@ -1,4 +1,7 @@
 
+"use client";
+
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -7,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 
 import { CitizenLog } from "@/lib/data";
 
@@ -29,46 +33,77 @@ interface LogTableProps {
 }
 
 export function LogTable({ logs }: LogTableProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredLogs = logs.filter((log) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      log.service.toLowerCase().includes(query) ||
+      log.action.toLowerCase().includes(query) ||
+      log.location.toLowerCase().includes(query) ||
+      log.device.toLowerCase().includes(query) ||
+      log.ip.toLowerCase().includes(query) ||
+      log.status.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <div className="space-y-6">
-      <div className="rounded-md border bg-card text-right overflow-x-auto" dir="rtl">
-        <Table className="min-w-[800px]">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[180px] text-right">وقت العملية</TableHead>
-              <TableHead className="text-right">الخدمة</TableHead>
-              <TableHead className="text-right">الإجراء</TableHead>
-              <TableHead className="text-right">الموقع</TableHead>
-              <TableHead className="hidden md:table-cell text-right">الجهاز</TableHead>
-              <TableHead className="hidden lg:table-cell text-right">مصدر الاتصال</TableHead>
-              <TableHead className="text-right">الحالة</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {logs.map((log) => (
-              <TableRow key={log.id}>
-                <TableCell className="text-sm text-muted-foreground text-right" dir="ltr">
-                  {new Date(log.timestamp).toLocaleString('en-SA', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true
-                  }).toUpperCase()}
-                </TableCell>
-                <TableCell className="font-medium text-right">{log.service}</TableCell>
-                <TableCell className="text-right">{log.action}</TableCell>
-                <TableCell className="text-right">{log.location}</TableCell>
-                <TableCell className="hidden md:table-cell text-muted-foreground text-right">{log.device}</TableCell>
-                <TableCell className="hidden lg:table-cell text-xs text-right">{log.ip}</TableCell>
-                <TableCell className="text-right">
-                  <StatusBadge status={log.status} />
-                </TableCell>
+      <div className="space-y-4">
+        <Input
+          placeholder="بحث في العمليات..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="max-w-sm text-right bg-white"
+          dir="rtl"
+        />
+        <div className="rounded-md border bg-card text-right overflow-x-auto" dir="rtl">
+          <Table className="min-w-[800px]">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[180px] text-right">وقت العملية</TableHead>
+                <TableHead className="text-right">الخدمة</TableHead>
+                <TableHead className="text-right">الإجراء</TableHead>
+                <TableHead className="text-right">الموقع</TableHead>
+                <TableHead className="hidden md:table-cell text-right">الجهاز</TableHead>
+                <TableHead className="hidden lg:table-cell text-right">مصدر الاتصال</TableHead>
+                <TableHead className="text-right">الحالة</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredLogs.length > 0 ? (
+                filteredLogs.map((log) => (
+                  <TableRow key={log.id}>
+                    <TableCell className="text-xs text-muted-foreground text-right font-mono" dir="ltr">
+                      {new Date(log.timestamp).toLocaleString('en-SA', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                      }).toUpperCase()}
+                    </TableCell>
+                    <TableCell className="font-medium text-right">{log.service}</TableCell>
+                    <TableCell className="text-right">{log.action}</TableCell>
+                    <TableCell className="text-right">{log.location}</TableCell>
+                    <TableCell className="hidden md:table-cell text-muted-foreground text-right">{log.device}</TableCell>
+                    <TableCell className="hidden lg:table-cell text-xs text-right">{log.ip}</TableCell>
+                    <TableCell className="text-right">
+                      <StatusBadge status={log.status} />
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={7} className="h-24 text-center">
+                    لا توجد نتائج.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <div className="bg-card rounded-md border p-6 text-right" dir="rtl">
