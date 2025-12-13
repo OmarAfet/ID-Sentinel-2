@@ -1,7 +1,9 @@
 
 "use client";
 
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -10,10 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertTriangle, Check, Ban, Cpu, MoreVertical, AlertCircle } from "lucide-react";
+import { AlertCircle, Ban, Check, Cpu, MoreVertical } from "lucide-react";
+import { useState } from "react";
 
 import { CitizenLog } from "@/lib/data";
 
@@ -63,7 +63,7 @@ export function LogTable({ logs }: LogTableProps) {
                 <div className="h-2 w-2 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.5)] animate-pulse" />
                 <h3 className="font-bold text-sm">تم رصد عملية مشبوهة</h3>
               </div>
-              
+
               <div className="space-y-1 pr-4">
                 <p className="font-semibold text-gray-900">
                   تسجيل دخول عبر نفاذ من جهاز غير معروف، هل هذا انت؟
@@ -77,33 +77,33 @@ export function LogTable({ logs }: LogTableProps) {
             {/* Left Side: Actions and Menu */}
             <div className="flex items-start gap-2 w-full md:w-auto">
               <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                <Button 
-                  variant="destructive" 
+                <Button
+                  variant="destructive"
                   className="bg-red-600 hover:bg-red-700 text-white gap-2 h-9 cursor-pointer"
                   size="sm"
                 >
-                   <Ban className="h-4 w-4" /> لا، إلغاء العملية
+                  <Ban className="h-4 w-4" /> لا، إلغاء العملية
                 </Button>
-                <Button 
-                  variant="default" 
+                <Button
+                  variant="default"
                   className="bg-green-600 hover:bg-green-700 text-white gap-2 h-9 cursor-pointer"
                   size="sm"
                 >
-                   <Check className="h-4 w-4" /> نعم، هذا انا
+                  <Check className="h-4 w-4" /> نعم، هذا انا
                 </Button>
               </div>
-              
+
               {/* Details Dropdown Toggle */}
               <div className="relative">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   className="h-9 w-9 text-gray-500 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
                   onClick={() => setIsDetailsOpen(!isDetailsOpen)}
                 >
                   <MoreVertical className="h-5 w-5" />
                 </Button>
-                
+
                 {isDetailsOpen && (
                   <div className="absolute left-0 top-10 w-64 bg-white rounded-lg shadow-lg border border-gray-100 z-50 p-4 text-sm animate-in fade-in zoom-in-95 duration-200">
                     <div className="space-y-3">
@@ -201,7 +201,7 @@ export function LogTable({ logs }: LogTableProps) {
 
         <div className="space-y-6">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            قام النظام بتحليل {logs.length} عملية باستخدام الذكاء الاصطناعي لكشف عن الاحتيال المتقدمة. 
+            قام النظام بتحليل {logs.length} عملية باستخدام الذكاء الاصطناعي لكشف عن الاحتيال المتقدمة.
             تشير المؤشرات الحالية إلى نمط سلوك طبيعي مع مستويات خطر منخفضة جداً.
           </p>
 
@@ -210,18 +210,18 @@ export function LogTable({ logs }: LogTableProps) {
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium">مؤشر الخطر</span>
               </div>
-              <span className="text-lg font-bold text-green-500">8%</span>
+              <span className="text-lg font-bold text-green-600">8%</span>
             </div>
-            
+
             <div className="relative h-4 w-full rounded-full overflow-hidden shadow-inner">
-               {/* Background gradient for the slider track to indicate severity zones */}
-               <div className="absolute inset-0 opacity-20 bg-gradient-to-l from-red-500 via-yellow-500 to-green-500"></div>
-               
-               {/* The "Thumb" or fill */}
-               <div 
-                 className="absolute top-0 right-0 h-full bg-green-500 transition-all duration-1000 ease-out rounded-l-full shadow-sm"
-                 style={{ width: '12%', left: 'auto' }} // RTL: starts from right
-               ></div>
+              {/* Background gradient for the slider track to indicate severity zones */}
+              <div className="absolute inset-0 opacity-20 bg-gradient-to-l from-red-500 via-yellow-500 to-green-600"></div>
+
+              {/* The "Thumb" or fill */}
+              <div
+                className="absolute top-0 right-0 h-full bg-green-600 transition-all duration-1000 ease-out rounded-l-full shadow-sm"
+                style={{ width: '12%', left: 'auto' }} // RTL: starts from right
+              ></div>
             </div>
 
             <div className="flex justify-between text-xs text-muted-foreground px-1">
