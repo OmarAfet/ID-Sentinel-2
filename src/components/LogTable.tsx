@@ -11,6 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { AlertTriangle, Check, Ban, Cpu, MoreVertical, AlertCircle } from "lucide-react";
 
 import { CitizenLog } from "@/lib/data";
 
@@ -34,6 +37,7 @@ interface LogTableProps {
 
 export function LogTable({ logs }: LogTableProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   const filteredLogs = logs.filter((log) => {
     const query = searchQuery.toLowerCase();
@@ -49,6 +53,87 @@ export function LogTable({ logs }: LogTableProps) {
 
   return (
     <div className="space-y-6">
+      {/* Active Operation Card - High Risk Example */}
+      <Card className="border-red-200 bg-red-50/50 overflow-visible" dir="rtl">
+        <CardContent className="px-4">
+          <div className="flex flex-col md:flex-row gap-4 items-start justify-between relative">
+            {/* Right Side: Title and Info */}
+            <div className="space-y-2 flex-1">
+              <div className="flex items-center gap-2 text-red-700">
+                <div className="h-2 w-2 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.5)] animate-pulse" />
+                <h3 className="font-bold text-sm">تم رصد عملية مشبوهة</h3>
+              </div>
+              
+              <div className="space-y-1 pr-4">
+                <p className="font-semibold text-gray-900">
+                  تسجيل دخول عبر نفاذ من جهاز غير معروف، هل هذا انت؟
+                </p>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <span>الوقت: اليوم – 02:13 ص</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Left Side: Actions and Menu */}
+            <div className="flex items-start gap-2 w-full md:w-auto">
+              <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                <Button 
+                  variant="destructive" 
+                  className="bg-red-600 hover:bg-red-700 text-white gap-2 h-9 cursor-pointer"
+                  size="sm"
+                >
+                   <Ban className="h-4 w-4" /> لا، إلغاء العملية
+                </Button>
+                <Button 
+                  variant="default" 
+                  className="bg-green-600 hover:bg-green-700 text-white gap-2 h-9 cursor-pointer"
+                  size="sm"
+                >
+                   <Check className="h-4 w-4" /> نعم، هذا انا
+                </Button>
+              </div>
+              
+              {/* Details Dropdown Toggle */}
+              <div className="relative">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-9 w-9 text-gray-500 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => setIsDetailsOpen(!isDetailsOpen)}
+                >
+                  <MoreVertical className="h-5 w-5" />
+                </Button>
+                
+                {isDetailsOpen && (
+                  <div className="absolute left-0 top-10 w-64 bg-white rounded-lg shadow-lg border border-gray-100 z-50 p-4 text-sm animate-in fade-in zoom-in-95 duration-200">
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-start border-b pb-2">
+                        <span className="text-gray-500">الجهاز</span>
+                        <span className="font-medium text-gray-900 dir-ltr text-right">iPhone 14 Pro</span>
+                      </div>
+                      <div className="flex justify-between items-start border-b pb-2">
+                        <span className="text-gray-500">الموقع</span>
+                        <span className="font-medium text-gray-900">الرياض، المعذر</span>
+                      </div>
+                      <div className="flex justify-between items-start border-b pb-2">
+                        <span className="text-gray-500">سبب الاشتباه</span>
+                        <span className="font-medium text-gray-900">جهاز جديد</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-500">مستوى الخطورة</span>
+                        <span className="font-bold text-red-600 flex items-center gap-1">
+                          عالٍ جدًا <AlertCircle className="h-4 w-4" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="space-y-4">
         <Input
           placeholder="بحث في العمليات..."
@@ -109,28 +194,7 @@ export function LogTable({ logs }: LogTableProps) {
       <div className="bg-card rounded-md border p-6 text-right" dir="rtl">
         <div className="flex items-center gap-2 mb-4">
           <div className="p-2 bg-primary/10 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-primary h-5 w-5"
-            >
-              <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
-              <path d="m5 7 1.4-1.4" />
-              <path d="m19 7-1.4-1.4" />
-              <path d="M12 22v-4" />
-              <path d="m5 17 1.4 1.4" />
-              <path d="m19 17-1.4 1.4" />
-              <path d="M2 12h4" />
-              <path d="M18 12h4" />
-              <rect width="8" height="8" x="8" y="8" rx="1" />
-            </svg>
+            <Cpu className="text-primary h-5 w-5" />
           </div>
           <h3 className="text-lg font-semibold">تحليل الذكاء الاصطناعي</h3>
         </div>
